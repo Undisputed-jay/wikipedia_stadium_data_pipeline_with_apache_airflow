@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # wikipedia_stadium_data_pipeline_with_apache_airflow
 <p>This project implements an Apache Airflow DAG to scrape and process data on the largest football stadiums worldwide from Wikipedia. The pipeline extracts data from a Wikipedia page, cleans and stores it in a Postgres database, and performs SQL queries for further analysis. The key features include:</p>
 
@@ -59,4 +58,3 @@ Contact
 =======
 
 The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
->>>>>>> 4b2cf03 (Initial commit: Added Wikipedia stadium data pipeline project)
