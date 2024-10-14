@@ -27,7 +27,7 @@ jobs:
     - name: Setup PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
       with:
-        postgresql_version: '13'   # Correcting the key to use an underscore
+        postgresql_version: '13'
         postgresql_db: 'airflow'
         postgresql_user: 'airflow'
         postgresql_password: 'airflow'
@@ -46,27 +46,31 @@ jobs:
         pip install apache-airflow[postgres]==2.10.2
         pip install astro-sdk-python pandas beautifulsoup4
 
-    # Step 6: Run airflow db initialization
-    - name: Initialize Airflow DB
-      run: |
-        airflow db init
+    # Step 6: Wait for PostgreSQL to be ready
+    - name: Wait for PostgreSQL to be ready
+      run: sleep 10  # Wait for 10 seconds
 
-    # Step 7: Check Airflow DB status
+    # Step 7: Run airflow db migration
+    - name: Migrate Airflow DB
+      run: |
+        airflow db migrate
+
+    # Step 8: Check Airflow DB status
     - name: Check Airflow DB status
       run: |
         airflow db check
 
-    # Step 8: Test DAG import (to ensure there are no import errors)
+    # Step 9: Test DAG import (to ensure there are no import errors)
     - name: Test DAG Import
       run: |
         airflow dags list
 
-    # Step 9: Validate the DAG (this ensures your DAG syntax is correct)
+    # Step 10: Validate the DAG (this ensures your DAG syntax is correct)
     - name: Validate DAGs
       run: |
         airflow dags validate -f dags/wikiflow.py
 
-    # Step 10: Trigger DAG Run
+    # Step 11: Trigger DAG Run
     - name: Trigger DAG run
       run: |
         airflow dags trigger wikiflow
