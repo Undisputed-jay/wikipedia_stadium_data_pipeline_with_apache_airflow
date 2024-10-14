@@ -22,7 +22,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'  
+        python-version: '3.8'
 
     # Step 3: Set up Postgres service (required for Airflow)
     - name: Setup PostgreSQL
@@ -33,13 +33,13 @@ jobs:
         postgresql user: 'airflow'
         postgresql password: 'airflow'
 
-    # Step 4: Install dependencies (Airflow, Astro)
+    # Step 4: Install dependencies (Airflow, pandas, BeautifulSoup)
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install apache-airflow[postgres]==2.10.2 pandas beautifulsoup4
 
-    # Step 5: Run airflow db initialization
+    # Step 5: Initialize Airflow DB
     - name: Initialize Airflow DB
       run: |
         airflow db init
@@ -47,7 +47,7 @@ jobs:
     # Step 6: Set up Airflow environment variables
     - name: Set environment variables
       run: |
-        echo "AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@localhost/airflow" >> $GITHUB_ENV
+        echo "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@localhost/airflow" >> $GITHUB_ENV
         echo "AIRFLOW__CORE__LOAD_EXAMPLES=False" >> $GITHUB_ENV
 
     # Step 7: Test DAG import (to ensure there are no import errors)
