@@ -1,6 +1,5 @@
 name: Airflow CI Workflow
 
-# When to run this workflow: on every push and pull request to the main branch
 on:
   push:
     branches:
@@ -33,13 +32,14 @@ jobs:
         postgresql user: 'airflow'
         postgresql password: 'airflow'
 
-    # Step 4: Install dependencies (Airflow, pandas, BeautifulSoup)
+    # Step 4: Install dependencies (Airflow, Astro)
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install apache-airflow[postgres]==2.10.2 pandas beautifulsoup4
+        pip install apache-airflow[postgres]==2.10.2
+        pip install astro-sdk-python pandas beautifulsoup4
 
-    # Step 5: Initialize Airflow DB
+    # Step 5: Run airflow db initialization
     - name: Initialize Airflow DB
       run: |
         airflow db init
